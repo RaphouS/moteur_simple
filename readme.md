@@ -71,6 +71,3 @@ Le système communique à 115200 bauds et affiche :
    - Vérifier le câblage
    - Contrôler la configuration des pins
    - Tester la continuité de l'interrupteur
-
-## Licence
-[Ajouter votre licence ici]
