@@ -63,16 +63,21 @@ void loop() {
   // change la valeur de la led
   ledState = !ledState;
   digitalWrite(ledPin, ledState);
-  BougerMoteur(&stepperX, &finDeCourseX, 50000, 1000);
+  BougerMoteur(&stepperX, &finDeCourseX, 10000, 1000);
   delay(5000);
 }
 // fonction bouger
 void BougerMoteur(AccelStepper* stepper, ezButton* finDeCourse, int MAX, int distance)
 {
-  digitalWrite(ENABLE_PIN, LOW); //active les moteurs
-  Serial.println("position actuelle : "+String(stepper->currentPosition()));
+    Serial.println("position actuelle : "+String(stepper->currentPosition()));
   long Position_cible = stepper->currentPosition()+distance;
   finDeCourse->loop(); //obligatoire, sinon arrêt après avoir appuyé sur le bouton.
+  if (Position_cible > MAX || finDeCourse->isPressed())
+  {
+    Serial.println("Fin de course atteinte ou position maximale atteinte");
+    return;
+  }
+  digitalWrite(ENABLE_PIN, LOW); //active les moteurs
   stepper->moveTo(Position_cible);
   while(stepper->distanceToGo() !=0)
   {
